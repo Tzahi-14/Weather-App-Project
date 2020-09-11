@@ -13,19 +13,57 @@ $("#load").on("click",function(){
 })
 
 const handleSearch = async function(city){
-    // const cityValue = $("#city-input").val()
-    // console.log(cityValue)
-    model.getCityData(city) 
+    await model.getCityData(city) 
+    renderer.renderAll(model.cityData)
 } 
+
+// $(".container").on("click", "#img", function () {
+//     const firstAndLast = $(this).closest("div").data().id
+//     const playerStatsDivId = render.getStatsDivId(firstAndLast)
+//     const getPlayer = document.getElementById(playerStatsDivId)
+//     if (!getPlayer) {
+//         logic.playerStats(firstAndLast).then((stats) => { render.renderStats(stats, this) }).catch((error) => {
+//             alert("This player doesn't have stats")
+//         })
+//     }
+// })
 
 $("#city-btn").on("click",function(){
     const cityValue = $("#city-input").val()
     // console.log(cityValue)
     handleSearch(cityValue)
+    $("#city-input").val("")
 })
-// $("#team-btn").on("click", function () {
-//     const inputTeamName = $("#team-input").val()
-//     logic.fetchTeam(inputTeamName).then((data) => { render.renderAll(data) })
+// $(".container").on("click","#saved-btn", async function(){
+//     console.log("hello")
+//     const cityName = $(this).closest(".city").find("#name").text()
+//     for (let city of this.cityData){
+//         if(cityName !==city){
+//             console.log(cityName)
+//             // const cityId = $(this).closest(".city").data().id
+//             await model.saveCity(cityName)   
+//             renderer.renderAll(model.cityData) 
+//         }
+//     }
+//     // console.log(cityData)
 // })
 
-loadPage()
+$(".container").on("click","#saved-btn", async function(){
+    console.log("hello")
+    const cityName = $(this).closest(".city").find("#name").text()
+    console.log(cityName)
+    // const cityId = $(this).closest(".city").data().id
+    await model.saveCity(cityName)   
+    renderer.renderAll(model.cityData) 
+    // console.log(cityData)
+})
+
+$(".container").on("click","#removed-btn", async function(){
+    console.log("hey")
+    const cityName =  $(this).closest(".city").find("#name").text()
+    console.log(cityName)
+    // const cityId = $(this).closest(".city").data().id
+    await model.removeCity(cityName)
+    renderer.renderAll(model.cityData)
+})
+
