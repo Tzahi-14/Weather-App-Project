@@ -11,7 +11,7 @@ class Model {
     // works
     async getCityData(cityName) {
         const fatch = await $.get(`/city/${cityName}`)
-        this.cityData.push({...fatch, saved: false })
+        this.cityData.push({ ...fatch, saved: false })
         console.log(fatch)
     }
 
@@ -44,10 +44,12 @@ class Model {
     // const cityName = $(this).closest(".city").find("#name").text()
 
     async saveCity(city) {
-        const findCity = this.cityData.find(a => a.name === city)        
+        const findCity = this.cityData.find(a => a.name === city)
+        const findCityID = this.cityData.findIndex(a => a.name === city)
+        console.log(findCityID)
         await $.post("/city", findCity)
+        this.cityData[findCityID].saved = true
     }
-
     // async saveCity(city){
     //     const findCity = this.cityData.find(a => a.name === city)
     //     await $.post("/city", findCity)
@@ -72,39 +74,35 @@ class Model {
 
     async removeCity(cityName) {
         const CityNameToDelete = this.cityData.find(a => a.name === cityName)
-
         console.log(CityNameToDelete)
-        if (CityNameToDelete.name === cityName) {
-            await $.ajax({
-                method: "DELETE",
-                url: `city/${CityNameToDelete.name}`,
-                success: (data) => {
-                    this.cityData.data = data
-                },
-                error: function (xhr, text, error) {
-                    console.log("city not on DB")
-                }
-            })
+        await $.ajax({
+            method: "DELETE",
+            url: `/city/${CityNameToDelete.name}`,
+            success: (data) => {
+                this.cityData.data = data
+                const findCityID = this.cityData.findIndex(a => a.name === cityName)
+                console.log(findCityID)
+                this.cityData[findCityID].saved = false
+            },
+            error: function (xhr, text, error) {
+                console.log("city not on DB")
+            }
+        })
 
-        }
-        // console.log(cityName,456)
-        // console.log(this.cityData)
-        // console.log(CityNameToDelete,456)
-        // const cityIndex = this.cityData.findIndex(a=>a._id===cityName)
     }
-    // async removeCity(cityName) {
-    //     const deleteCity = await $.ajax({
-    //         method: "DELETE",
-    //         url: `city/${cityName}`,
-    //         success: (data)=>{
-    //             this.cityData.data= data
-    //         },
-    //         error: function (xhr,text,error){
-    //             console.log(text)
-    //         }
-    //     })
-    // }
+    async updateCity(cityName) {
+        const cityToUpdate = this.cityData.find(a => a.name === cityName)
+        console.log(cityToUpdate)
+        await $.ajax({
+            method: "PUT",
+            url: `/city/${cityToUpdate.name}`,
+            success: (data) => {
+                this.cityData.data = data
+            }
+        })
+    }
 }
+
 
 
 // const model = new Model()
