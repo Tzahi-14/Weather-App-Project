@@ -1,0 +1,9 @@
+body{
+    background-color: aqua;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: rgb(73, 102, 184);
+}

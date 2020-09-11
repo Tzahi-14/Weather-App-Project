@@ -10,14 +10,21 @@
     <input type="text" placeholder="Enter you city" id="city-input">
     <button id="city-btn">Search</button><br>
     <button id="load">Load</button>
+
     <div class="container"></div>
 
     <script id="weather-template" type="text/x-handlebars-template">
         {{#each data}}
+        <div class="city" data.id={{_id}}>
+            {{#if saved}}
+             <button id="removed-btn">removed</button> {{else}}<button id=saved-btn>saved</button>
+            {{/if}}
         <div id="name">{{name}}</div>
         <div id="description">{{condition}}</div>
-        <div id="icon"><img src="{{icon}}" alt=""></div>
+        <div id="icon"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png" alt=""></div>
         <div id="icon">{{temperature}}</div>
+        <!-- <div><button id="removed-btn">removed</button><button id=saved-btn>saved</button></div> -->
+        </div>
         {{/each}}
         </script>
 

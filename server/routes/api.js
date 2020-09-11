@@ -13,15 +13,15 @@ router.get('/city/:cityName', async function (req, res) {
     try {
         const weatherData = await axios.get(getUrl(cityName))
         const citiesData = weatherData.data
-        const mapedData = citiesData.map(a => ({
-            name: name,
-            temperature: main.temp,
-            condition : weather.description ,
-            icon : weather.icon
-        }))
-        console.log(weatherData.data)
+        const mapedData =  {
+            name: citiesData.name,
+            temperature: citiesData.main.temp,
+            condition : citiesData.weather[0].description ,
+            icon : citiesData.weather[0].icon
+        }
+        console.log(mapedData)
+        res.send(mapedData)
 
-        res.send(weatherData.data)
     } catch (error) {
         console.log(error)
     }
@@ -35,9 +35,7 @@ router.get("/cities", async function (req, res) {
 
 router.post(`/city`, function (req, res) {
     const newCityDB = req.body
-    const newCity = new City({ ...newCityDB })
-    console.log(newCityDB)
-    console.log(newCity)
+    const newCity = new City({...newCityDB})
     newCity.save()
     res.send(newCity)
 })
