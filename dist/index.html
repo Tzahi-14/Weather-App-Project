@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    
+    <input type="text" placeholder="Enter you city" id="city-input">
+    <button id="city-btn">Search</button><br>
+    <button id="load">Load</button>
+    <div class="container"></div>
+
+    <script id="weather-template" type="text/x-handlebars-template">
+        {{#each data}}
+        <div id="name">{{name}}</div>
+        <div id="description">{{condition}}</div>
+        <div id="icon"><img src="{{icon}}" alt=""></div>
+        <div id="icon">{{temperature}}</div>
+        {{/each}}
+        </script>
+
+
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./handlebars/dist/handlebars.js"></script>
+    <script src="logic.js"></script>
+    <script src="render.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
