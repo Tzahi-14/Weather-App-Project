@@ -13,6 +13,7 @@ $("#load").on("click",function(){
 })
 
 const handleSearch = async function(city){
+
     await model.getCityData(city) 
     renderer.renderAll(model.cityData)
 } 
@@ -30,33 +31,32 @@ const handleSearch = async function(city){
 
 $("#city-btn").on("click",function(){
     const cityValue = $("#city-input").val()
+    // const checkExist = document.body.textContent.search(`${cityValue}`)
     // console.log(cityValue)
     handleSearch(cityValue)
     $("#city-input").val("")
 })
-// $(".container").on("click","#saved-btn", async function(){
-//     console.log("hello")
-//     const cityName = $(this).closest(".city").find("#name").text()
-//     for (let city of this.cityData){
-//         if(cityName !==city){
-//             console.log(cityName)
-//             // const cityId = $(this).closest(".city").data().id
-//             await model.saveCity(cityName)   
-//             renderer.renderAll(model.cityData) 
-//         }
-//     }
-//     // console.log(cityData)
-// })
-
 $(".container").on("click","#saved-btn", async function(){
     console.log("hello")
     const cityName = $(this).closest(".city").find("#name").text()
-    console.log(cityName)
-    // const cityId = $(this).closest(".city").data().id
-    await model.saveCity(cityName)   
-    renderer.renderAll(model.cityData) 
+    // const checkExist = document.body.textContent.search(`${cityName}`)
+    const checkExist = $(`body:contains(${cityName})`)
+    if(!checkExist){
+        await model.saveCity(cityName)   
+        renderer.renderAll(model.cityData) 
+    }
     // console.log(cityData)
 })
+
+// $(".container").on("click","#saved-btn", async function(){
+//     console.log("hello")
+//     const cityName = $(this).closest(".city").find("#name").text()
+//     console.log(cityName)
+//     // const cityId = $(this).closest(".city").data().id
+//     await model.saveCity(cityName)   
+//     renderer.renderAll(model.cityData) 
+//     // console.log(cityData)
+// })
 
 $(".container").on("click","#removed-btn", async function(){
     console.log("hey")
@@ -64,6 +64,13 @@ $(".container").on("click","#removed-btn", async function(){
     console.log(cityName)
     // const cityId = $(this).closest(".city").data().id
     await model.removeCity(cityName)
+    renderer.renderAll(model.cityData)
+})
+$(".container").on("click","#updated-btn", async function(){
+    console.log("updated")
+    const cityName = $(this).closest(".city").find("#name").text()
+    console.log(cityName)
+    await model.updateCity(cityName)
     renderer.renderAll(model.cityData)
 })
 
