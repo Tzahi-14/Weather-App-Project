@@ -9,23 +9,65 @@ class Model {
         // console.log(this.cityData)
     }
     // works
-    async getCityData(cityName) {
-        const fatch = await $.get(`/city/${cityName}`)
-        this.cityData.push({ ...fatch, saved: false })
-        console.log(fatch)
-    }
+    // async getCityData(cityName) {
+    //     const fatch = await $.get(`/city/${cityName}`)
+    //     this.cityData.push({ ...fatch, saved: false })
+    //     console.log(fatch)
+    // }
 
     // async getCityData(cityName) {
     //     const fatch = await $.get(`/city/${cityName}`)
     //     this.cityData.push({...fatch, saved: false })
     //     console.log(fatch)
     // }
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(showPosition);
+    //   } else { 
+    //     x.innerHTML = "Geolocation is not supported by this browser.";
+    //   }
+  
+    //works without lat lon
     // async getCityData(cityName) {
-    //     if(!cityName)
+    //     if(!cityName){
+    //         return 
+    //     }
+    //     let exist = false
+    //     this.cityData.forEach(a => {
+    //         if(cityName.toLowerCase()===a.name.toLowerCase()){
+    //             exist = true
+    //         }
+    //     });
+    //     if (exist){
+    //         return alert ("City already exist on your Data base, you can update the data")
+    //     }
     //     const fatch = await $.get(`/city/${cityName}`)
     //     this.cityData.push({ ...fatch, saved: false })
     //     console.log(fatch)
     // }
+    async getCityData(cityName,lat,lon) {
+        if(!cityName){
+            return 
+        }
+        let exist = false
+        this.cityData.forEach(a => {
+            if(cityName.toLowerCase()===a.name.toLowerCase()){
+                exist = true
+            }
+        });
+        if (exist){
+            return alert ("City already exist on your Data base, you can update the data")
+        }
+        if (lat && lon) {
+            const fatch = await $.get(`/city/${cityName}?lat=${lat}&lon=${lon}`)
+            this.cityData.push({ ...fatch, saved: false })
+            console.log(fatch)
+        }
+        else{
+            const fatch = await $.get(`/city/${cityName}`)
+            this.cityData.push({ ...fatch, saved: false })
+            console.log(fatch)
+        }
+    }
 
     // async saveCity(saveCity) {
     //     for (let i in this.cityData) {
@@ -79,7 +121,7 @@ class Model {
             method: "DELETE",
             url: `/city/${CityNameToDelete.name}`,
             success: (data) => {
-                this.cityData.data = data
+                this.cityData.data = data // don't need this line, data return that we deleted this city
                 const findCityID = this.cityData.findIndex(a => a.name === cityName)
                 console.log(findCityID)
                 this.cityData[findCityID].saved = false
@@ -97,7 +139,19 @@ class Model {
             method: "PUT",
             url: `/city/${cityToUpdate.name}`,
             success: (data) => {
-                this.cityData.data = data
+                if(cityToUpdate.name ===cityName){
+                    for(let i in this.cityData){
+                        if(this.cityData[i]["_id"]=== data["_id"]){
+                            this.cityData[i]=data
+                        }
+                    }
+                }
+                // this.cityData.forEach(a => {
+                //     if(a["_id"] === data["_id"]) {
+                //         a =data;
+                //     }
+                // });
+                
             }
         })
     }
