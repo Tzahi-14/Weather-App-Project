@@ -20,12 +20,8 @@ class Model {
     //     this.cityData.push({...fatch, saved: false })
     //     console.log(fatch)
     // }
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(showPosition);
-    //   } else { 
-    //     x.innerHTML = "Geolocation is not supported by this browser.";
-    //   }
-  
+
+
     //works without lat lon
     // async getCityData(cityName) {
     //     if(!cityName){
@@ -44,31 +40,42 @@ class Model {
     //     this.cityData.push({ ...fatch, saved: false })
     //     console.log(fatch)
     // }
-    async getCityData(cityName,lat,lon) {
-        if(!cityName){
-            return 
+    async getCityData(cityName, lat, lon) {
+        if (!cityName) {
+            return
         }
         let exist = false
+        debugger
         this.cityData.forEach(a => {
-            if(cityName.toLowerCase()===a.name.toLowerCase()){
+            if (cityName === a.name.toLowerCase()) {
                 exist = true
             }
         });
-        if (exist){
-            return alert ("City already exist on your Data base, you can update the data")
+        if (exist) {
+            return alert("City already exist on your Data base, you can update the data")
         }
         if (lat && lon) {
             const fatch = await $.get(`/city/${cityName}?lat=${lat}&lon=${lon}`)
             this.cityData.push({ ...fatch, saved: false })
             console.log(fatch)
         }
-        else{
+        else {
             const fatch = await $.get(`/city/${cityName}`)
             this.cityData.push({ ...fatch, saved: false })
             console.log(fatch)
         }
     }
 
+    // showPosition = (position) =>  {
+    //     this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
+    // }
+    async getCurrentLocationData() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position =>  {
+                this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
+            });
+        }
+    }
     // async saveCity(saveCity) {
     //     for (let i in this.cityData) {
     //         console.log(this.cityData[i].name)
@@ -139,10 +146,10 @@ class Model {
             method: "PUT",
             url: `/city/${cityToUpdate.name}`,
             success: (data) => {
-                if(cityToUpdate.name ===cityName){
-                    for(let i in this.cityData){
-                        if(this.cityData[i]["_id"]=== data["_id"]){
-                            this.cityData[i]=data
+                if (cityToUpdate.name === cityName) {
+                    for (let i in this.cityData) {
+                        if (this.cityData[i]["_id"] === data["_id"]) {
+                            this.cityData[i] = data
                         }
                     }
                 }
@@ -151,7 +158,7 @@ class Model {
                 //         a =data;
                 //     }
                 // });
-                
+
             }
         })
     }

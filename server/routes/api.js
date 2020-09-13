@@ -89,7 +89,7 @@ const cityObj = function (cityData) {
                     lon: weatherData.data.coord.lon,
                     lat: weatherData.data.coord.lat
                 }
-                console.log(mapedData)
+                // console.log(mapedData)
                 res.send(mapedData)
 
             } catch (error) {
@@ -99,23 +99,24 @@ const cityObj = function (cityData) {
         try {
             const weatherData = await axios.get(getUrl(cityName))
             const getData = cityObj(weatherData)
-            console.log(getData)
+            // console.log(getData)
             res.send(getData)
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     })
 
     router.get("/cities", async function (req, res) {
         const cities = await City.find({})
-        console.log(cities)
+        cities.forEach(a=>a.saved=true)
+        // console.log(cities)
         res.send(cities)
     })
 
     router.post(`/city`, function (req, res) {
         const newCityDB = req.body
-        const newCity = new City({ ...newCityDB })
+        const newCity = new City({ ...newCityDB})
         newCity.save()
         res.send(newCity)
     })
@@ -123,7 +124,7 @@ const cityObj = function (cityData) {
     router.delete('/city/:cityName', function (req, res) {
         const cityName = req.params.cityName
         City.find({ name: `${cityName}` }, { new: true }).remove().exec(function (err, deleted) {
-            console.log(cityName)
+            // console.log(cityName)
             res.send(cityName)
         });
     })

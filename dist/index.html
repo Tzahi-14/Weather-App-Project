@@ -23,7 +23,9 @@
         <div id="description">{{condition}}</div>
         <div id="icon"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png" alt=""></div>
         <div id="temperature">{{temperature}}</div>
+        {{#if saved}}
         <div><button id="updated-btn">Update data</button></div>
+        {{/if}}
         </div>
         {{/each}}
         </script>
