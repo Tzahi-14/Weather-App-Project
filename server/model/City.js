@@ -13,13 +13,4 @@ const citySchema = new Schema({
 
 const City = mongoose.model("City", citySchema)
 
-// let s = new City({
-//     name: "Tel-Aviv",
-//     temperature: 30,
-//     condition:"good",
-//     conditionPic:"nice"
-// })
-
-// s.save()
-
 module.exports = City

@@ -3,7 +3,6 @@ const renderer = new Renderer()
 
 const loadPage = async function () {
     await model.getDataFromDB()
-    // await model.getCurrentLocationData()
     await model.getCurrentCity()
     await model.checkLastUpadate()
     console.log(model.cityData.length)
@@ -23,38 +22,22 @@ const handleSearch = async function (city) {
 
 $("#city-btn").on("click", function () {
     const cityValue = $("#city-input").val()
-    // const checkExist = document.body.textContent.search(`${cityValue}`)
-    // console.log(cityValue)
     handleSearch(cityValue)
     $("#city-input").val("")
 })
-// $(".container").on("click","#saved-btn", async function(){
-//     console.log("hello")
-//     const cityName = $(this).closest(".city").find("#name").text()
-//     // const checkExist = document.body.textContent.search(`${cityName}`)
-//     const checkExist = $(`body:contains(${cityName})`)
-//     if(!checkExist){
-//         await model.saveCity(cityName)   
-//         renderer.renderAll(model.cityData) 
-//     }
-//     // console.log(cityData)
-// })
 
 $(".container").on("click", "#saved-btn", async function () {
     console.log("hello")
     const cityName = $(this).closest(".city").find("#name").text()
     console.log(cityName)
-    // const cityId = $(this).closest(".city").data().id
     await model.saveCity(cityName)
     renderer.renderAll(model.cityData)
-    // console.log(cityData)
 })
 
 $(".container").on("click", "#removed-btn", async function () {
     console.log("hey")
     const cityName = $(this).closest(".city").find("#name").text()
     console.log(cityName)
-    // const cityId = $(this).closest(".city").data().id
     await model.removeCity(cityName)
     renderer.renderAll(model.cityData)
 })

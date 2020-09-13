@@ -2,13 +2,7 @@ class Model {
     constructor() {
         this.cityData = []
     }
-    //works
-    // async getDataFromDB() {
-    //     const fatch = await $.get("/cities")
-    //     this.cityData = fatch
-    //     console.log(fatch)
-    //     // console.log(this.cityData)
-    // }
+
     momentDateFormat (city){
        return moment(city.updatedAt).format('LLLL')
     }
@@ -21,44 +15,12 @@ class Model {
             console.log(a)
         });
     }
-    // works
-    // async getCityData(cityName) {
-    //     const fatch = await $.get(`/city/${cityName}`)
-    //     this.cityData.push({ ...fatch, saved: false })
-    //     console.log(fatch)
-    // }
-
-    // async getCityData(cityName) {
-    //     const fatch = await $.get(`/city/${cityName}`)
-    //     this.cityData.push({...fatch, saved: false })
-    //     console.log(fatch)
-    // }
-
-
-    //works without lat lon
-    // async getCityData(cityName) {
-    //     if(!cityName){
-    //         return 
-    //     }
-    //     let exist = false
-    //     this.cityData.forEach(a => {
-    //         if(cityName.toLowerCase()===a.name.toLowerCase()){
-    //             exist = true
-    //         }
-    //     });
-    //     if (exist){
-    //         return alert ("City already exist on your Data base, you can update the data")
-    //     }
-    //     const fatch = await $.get(`/city/${cityName}`)
-    //     this.cityData.push({ ...fatch, saved: false })
-    //     console.log(fatch)
-    // }
+   
     async getCityData(cityName, lat, lon) {
         if (!cityName) {
             return
         }
         let exist = false
-        debugger
         this.cityData.forEach(a => {
             if (cityName === a.name.toLowerCase()) {
                 exist = true
@@ -92,31 +54,7 @@ class Model {
         let position = await this.getPosition()
         await this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
     }
-    //     //works
-    // async getCurrentLocationData() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(async position => {
-    //             await this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
-    //             return position
-    //         });
-    //     }
-    // }
-    // async saveCity(saveCity) {
-    //     for (let i in this.cityData) {
-    //         console.log(this.cityData[i].name)
-    //         console.log(saveCity)
-    //         if (saveCity !== this.cityData[i].name) {
-    //             const findCity = this.cityData.find(a => a.name === saveCity)
-    //             await $.post("/city", findCity)
-    //         }
-    //         else{
-    //             console.log("city on DB")
-    //         }
-    //     }
-    //     // this.cityData[0].saved =true
-    // }
-    // const cityName = $(this).closest(".city").find("#name").text()
-
+    
     async saveCity(city) {
         const findCity = this.cityData.find(a => a.name === city)
         const findCityID = this.cityData.findIndex(a => a.name === city)
@@ -124,27 +62,6 @@ class Model {
         await $.post("/city", findCity)
         this.cityData[findCityID].saved = true
     }
-    // async saveCity(city){
-    //     const findCity = this.cityData.find(a => a.name === city)
-    //     await $.post("/city", findCity)
-    // }
-
-    // saveCity(saveCity) {
-    //     for (let i in this.cityData) {
-    //         if (saveCity === this.cityData[i].name) {
-    //             $.post(`/city`, this.cityData[i], () => {
-    //                 const cityy = this.cityData.find(c => c.name === saveCity)
-    //                 if (!cityy) {
-    //                     this.cityData.push(cityy)
-    //                 } else {
-    //                     console.log(`city is already saved`);
-    //                 }
-    //             })
-    //         } else {
-    //             console.log(`city already in data-base`);
-    //         }
-    //     }
-    // }
 
     async removeCity(cityName) {
         const CityNameToDelete = this.cityData.find(a => a.name === cityName)
@@ -179,15 +96,11 @@ class Model {
                         }
                     }
                 }
-                // this.cityData.forEach(a => {
-                //     if(a["_id"] === data["_id"]) {
-                //         a =data;
-                //     }
-                // });
 
             }
         })
     }
+    
      async checkLastUpadate () {
         if (this.cityData.length > 0) {
             console.log("tzahi")

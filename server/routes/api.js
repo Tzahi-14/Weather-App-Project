@@ -18,64 +18,6 @@ const cityObj = function (cityData) {
     }
     return mapedData
 }
-
-//works without lat and lon
-// router.get('/city/:cityName', async function (req, res) {
-//     const cityName = req.params.cityName
-//     try {
-//         const weatherData = await axios.get(getUrl(cityName))
-//         const getData = cityObj(weatherData)
-//         console.log(getData)
-//         res.send(getData)
-
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
-
-// const getCityByLocation = function (cityData) {
-//     let mapedData = {
-//         name: cityData.data.name.toLowerCase(),
-//         temperature: cityData.data.main.temp,
-//         condition: cityData.data.weather[0].description,
-//         icon: cityData.data.weather[0].icon,
-//         lon: cityData.data.coord.lon,
-//         lat: cityData.data.coord.lat
-//     }
-//     return ma
-// }
-//     router.get('/city/:cityName', async function (req, res) {
-//         const cityName = req.params.cityName
-//         const lon = req.query.lon
-//         const lat = req.query.lat
-//         if (lon && lat) {
-//             try {
-//                 const weatherData = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
-//                 let mapedData = {
-//                     name: weatherData.data.name.toLowerCase(),
-//                     temperature: weatherData.data.main.temp,
-//                     condition: weatherData.data.weather[0].description,
-//                     icon: weatherData.data.weather[0].icon,
-//                     lon: weatherData.data.coord.lon,
-//                     lat: weatherData.data.coord.lat
-//                 }
-//                 console.log(mapedData)
-//                 res.send(mapedData)
-
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//         try {
-//             const weatherData = await axios.get(getUrl(cityName))
-//             const getData = cityObj(weatherData)
-//             console.log(getData)
-//             res.send(getData)
-
-//         } catch (error) {
-//             console.log(error)
-//         }
-    // })
     router.get('/city/:cityName', async function (req, res) {
         const cityName = req.params.cityName
         const lon = req.query.lon
@@ -93,7 +35,6 @@ const cityObj = function (cityData) {
                     updatedAt: moment(new Date()).format('LLLL')
 
                 }
-                // console.log(mapedData)
                 res.send(mapedData)
 
             } catch (error) {
@@ -103,7 +44,6 @@ const cityObj = function (cityData) {
         try {
             const weatherData = await axios.get(getUrl(cityName))
             const getData = cityObj(weatherData)
-            // console.log(getData)
             res.send(getData)
 
         } catch (error) {
@@ -114,7 +54,6 @@ const cityObj = function (cityData) {
     router.get("/cities", async function (req, res) {
         const cities = await City.find({})
         cities.forEach(a=>a.saved=true)
-        // console.log(cities)
         res.send(cities)
     })
 
@@ -128,7 +67,6 @@ const cityObj = function (cityData) {
     router.delete('/city/:cityName', function (req, res) {
         const cityName = req.params.cityName
         City.find({ name: `${cityName}` }, { new: true }).remove().exec(function (err, deleted) {
-            // console.log(cityName)
             res.send(cityName)
         });
     })
@@ -144,13 +82,7 @@ const cityObj = function (cityData) {
                 icon: citiesData.weather[0].icon,
                 updatedAt: moment(new Date()).format('LLLL')
             }
-            // const updatedData = await City.findOneAndUpdate({name: `${cityName}`},mapedData,{new:true})
-            // if(updatedData){
-            //     res.send(updatedData)
-            // }
-            // else{
-            //     res.send("try again")
-            // }
+
             const updatedData = await City.findOneAndUpdate({ name: `${cityName}` }, mapedData, { new: true })
             if (updatedData) {
                 res.send(updatedData)
