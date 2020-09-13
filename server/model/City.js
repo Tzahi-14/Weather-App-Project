@@ -7,7 +7,8 @@ const citySchema = new Schema({
     temperature: Number,
     condition: String,
     icon: String,
-    saved:Boolean
+    saved:Boolean,
+    updatedAt:Date
 })
 
 const City = mongoose.model("City", citySchema)

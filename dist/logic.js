@@ -2,11 +2,24 @@ class Model {
     constructor() {
         this.cityData = []
     }
+    //works
+    // async getDataFromDB() {
+    //     const fatch = await $.get("/cities")
+    //     this.cityData = fatch
+    //     console.log(fatch)
+    //     // console.log(this.cityData)
+    // }
+    momentDateFormat (city){
+       return moment(city.updatedAt).format('LLLL')
+    }
+
     async getDataFromDB() {
         const fatch = await $.get("/cities")
-        this.cityData = fatch
-        console.log(fatch)
-        // console.log(this.cityData)
+        fatch.forEach(a => {
+            a.updatedAt = moment(a.updatedAt).format('LLLL')
+            this.cityData.push(a)
+            console.log(a)
+        });
     }
     // works
     // async getCityData(cityName) {
@@ -66,16 +79,28 @@ class Model {
         }
     }
 
-    // showPosition = (position) =>  {
-    //     this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
-    // }
-    async getCurrentLocationData() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position =>  {
-                this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
-            });
-        }
+
+    async getPosition() {
+        return new Promise(function (resolve, reject) {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            }
+        });
     }
+
+    async getCurrentCity() {
+        let position = await this.getPosition()
+        await this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
+    }
+    //     //works
+    // async getCurrentLocationData() {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(async position => {
+    //             await this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
+    //             return position
+    //         });
+    //     }
+    // }
     // async saveCity(saveCity) {
     //     for (let i in this.cityData) {
     //         console.log(this.cityData[i].name)
@@ -146,6 +171,7 @@ class Model {
             method: "PUT",
             url: `/city/${cityToUpdate.name}`,
             success: (data) => {
+                data.updatedAt = this.momentDateFormat(cityName)
                 if (cityToUpdate.name === cityName) {
                     for (let i in this.cityData) {
                         if (this.cityData[i]["_id"] === data["_id"]) {
@@ -161,6 +187,21 @@ class Model {
 
             }
         })
+    }
+     async checkLastUpadate () {
+        if (this.cityData.length > 0) {
+            console.log("tzahi")
+            this.cityData.forEach(a => {
+                let newTime = new moment()
+                const diff = moment.duration(newTime.diff(a.updatedAt))._data.minutes
+                // const diff = moment.duration(new moment().diff(a.updatedAt))
+                console.log(diff)
+                if (diff > 3) {
+                      this.updateCity(a.name)
+                }
+            });
+
+        }
     }
 }
 

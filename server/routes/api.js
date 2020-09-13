@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios')
+const moment = require ("moment")
 const City = require("../model/City")
 
 const apiKey = "f2d2c49051fb06b13f554f1bea9d785e"
@@ -12,7 +13,8 @@ const cityObj = function (cityData) {
         name: cityData.data.name.toLowerCase(),
         temperature: cityData.data.main.temp,
         condition: cityData.data.weather[0].description,
-        icon: cityData.data.weather[0].icon
+        icon: cityData.data.weather[0].icon,
+        updatedAt:  moment(new Date()).format('LLLL')
     }
     return mapedData
 }
@@ -87,7 +89,9 @@ const cityObj = function (cityData) {
                     condition: weatherData.data.weather[0].description,
                     icon: weatherData.data.weather[0].icon,
                     lon: weatherData.data.coord.lon,
-                    lat: weatherData.data.coord.lat
+                    lat: weatherData.data.coord.lat,
+                    updatedAt: moment(new Date()).format('LLLL')
+
                 }
                 // console.log(mapedData)
                 res.send(mapedData)
@@ -138,7 +142,7 @@ const cityObj = function (cityData) {
                 temperature: citiesData.main.temp,
                 condition: citiesData.weather[0].description,
                 icon: citiesData.weather[0].icon,
-                timezone: citiesData.timezone
+                updatedAt: moment(new Date()).format('LLLL')
             }
             // const updatedData = await City.findOneAndUpdate({name: `${cityName}`},mapedData,{new:true})
             // if(updatedData){
