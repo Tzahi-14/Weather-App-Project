@@ -2,45 +2,24 @@ const model = new Model()
 const renderer = new Renderer()
 
 const loadPage = async function () {
-    model.getDataFromDB()
-    await model.getCurrentLocationData()
-    console.log(model.cityData)
+    await model.getDataFromDB()
+    // await model.getCurrentLocationData()
+    await model.getCurrentCity()
+    await model.checkLastUpadate()
+    console.log(model.cityData.length)
     renderer.renderAll(model.cityData)
 }
 loadPage()
 const current = async function () {
     debugger
     await model.getCityData()
-
 }
-debugger
-current()
-// model.getCurrentLocationData()
-// renderer.renderAll(model.cityData)
 
 
-$("#load").on("click", function () {
-    // model.getDataFromDB().then((data)=>{renderer.renderAll(data)})
-    model.getDataFromDB()
-    renderer.renderAll(model.cityData)
-})
-
-const handleSearch = async function (city, lat, lon) {
-    // debugger
+const handleSearch = async function (city) {
     await model.getCityData(city)
     renderer.renderAll(model.cityData)
 }
-
-// $(".container").on("click", "#img", function () {
-//     const firstAndLast = $(this).closest("div").data().id
-//     const playerStatsDivId = render.getStatsDivId(firstAndLast)
-//     const getPlayer = document.getElementById(playerStatsDivId)
-//     if (!getPlayer) {
-//         logic.playerStats(firstAndLast).then((stats) => { render.renderStats(stats, this) }).catch((error) => {
-//             alert("This player doesn't have stats")
-//         })
-//     }
-// })
 
 $("#city-btn").on("click", function () {
     const cityValue = $("#city-input").val()
@@ -87,10 +66,20 @@ $(".container").on("click", "#updated-btn", async function () {
     renderer.renderAll(model.cityData)
 })
 
-// const getCurrentLocationData = function (city,) {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(position => {
-//             this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
+// const t= new moment()
+// const t1= new moment()
+// const t3= moment.duration(t.diff(t1))
+// console.log(t3);
+// const checkLastUpadate = async function(){
+//     if(model.cityData.length>0){
+//         console.log("tzahi")
+//         model.cityData.forEach(a => {
+//             const diff =  moment.duration(new moment().diff(a.date))
+//             if(diff>3){
+//                await model.updateCity(a.name)
+//             }
 //         });
+
 //     }
 // }
+
