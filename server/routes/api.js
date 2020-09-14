@@ -47,7 +47,7 @@ const cityObj = function (cityData) {
             res.send(getData)
 
         } catch (error) {
-            // console.log(error)
+            console.log(error)
         }
     })
 

@@ -18,7 +18,7 @@ class Model {
    
     async getCityData(cityName, lat, lon) {
         if (!cityName) {
-            return
+            return alert ("try again, maybe type error?")
         }
         let exist = false
         this.cityData.forEach(a => {
