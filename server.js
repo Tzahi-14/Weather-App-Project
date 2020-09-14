@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const api = require('./server/routes/api')
 const app = express()
 const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost/yourDB', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost/city', { useNewUrlParser: true })
 
 app.use(express.static(path.join(__dirname, 'dist')))
 app.use(express.static(path.join(__dirname, 'node_modules')))

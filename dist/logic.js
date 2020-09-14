@@ -18,7 +18,7 @@ class Model {
    
     async getCityData(cityName, lat, lon) {
         if (!cityName) {
-            return alert ("try again, maybe type error?")
+            return alert ("try again")
         }
         let exist = false
         this.cityData.forEach(a => {
@@ -27,7 +27,7 @@ class Model {
             }
         });
         if (exist) {
-            return alert("City already exist on your Data base, you can update the data")
+            return alert("City already exist, you can update your data")
         }
         if (lat && lon) {
             const fatch = await $.get(`/city/${cityName}?lat=${lat}&lon=${lon}`)
@@ -84,42 +84,32 @@ class Model {
     async updateCity(cityName) {
         const cityToUpdate = this.cityData.find(a => a.name === cityName)
         console.log(cityToUpdate)
-        await $.ajax({
+       const data = await $.ajax({
             method: "PUT",
-            url: `/city/${cityToUpdate.name}`,
-            success: (data) => {
-                data.updatedAt = this.momentDateFormat(cityName)
-                if (cityToUpdate.name === cityName) {
-                    for (let i in this.cityData) {
-                        if (this.cityData[i]["_id"] === data["_id"]) {
-                            this.cityData[i] = data
-                        }
-                    }
-                }
-
-            }
+            url: `/city/${cityToUpdate.name}`
         })
+        data.updatedAt = this.momentDateFormat(cityName)
+        if (cityToUpdate.name === cityName) {
+            for (let i in this.cityData) {
+                if (this.cityData[i]["_id"] === data["_id"]) {
+                    this.cityData[i] = data
+                }
+            }
+        }
     }
     
      async checkLastUpadate () {
         if (this.cityData.length > 0) {
             console.log("tzahi")
-            this.cityData.forEach(a => {
+            for (let a of this.cityData){
                 let newTime = new moment()
-                const diff = moment.duration(newTime.diff(a.updatedAt))._data.minutes
-                // const diff = moment.duration(new moment().diff(a.updatedAt))
+                const diff = moment.duration(newTime.diff(a.updatedAt))._data.hours
                 console.log(diff)
                 if (diff > 3) {
-                      this.updateCity(a.name)
+                     await this.updateCity(a.name)
                 }
-            });
-
+            }
         }
     }
 }
-
-
-
-// const model = new Model()
-// model.getDataFromDB()
 

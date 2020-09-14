@@ -49,20 +49,4 @@ $(".container").on("click", "#updated-btn", async function () {
     renderer.renderAll(model.cityData)
 })
 
-// const t= new moment()
-// const t1= new moment()
-// const t3= moment.duration(t.diff(t1))
-// console.log(t3);
-// const checkLastUpadate = async function(){
-//     if(model.cityData.length>0){
-//         console.log("tzahi")
-//         model.cityData.forEach(a => {
-//             const diff =  moment.duration(new moment().diff(a.date))
-//             if(diff>3){
-//                await model.updateCity(a.name)
-//             }
-//         });
-
-//     }
-// }
 
