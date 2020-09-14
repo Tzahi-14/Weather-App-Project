@@ -41,7 +41,6 @@ class Model {
         }
     }
 
-
     async getPosition() {
         return new Promise(function (resolve, reject) {
             if(navigator.geolocation){
