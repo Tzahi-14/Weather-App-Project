@@ -55,6 +55,7 @@ class Model {
         await this.getCityData("dummyCity", position.coords.latitude, position.coords.longitude)
     }
     
+    
     async saveCity(city) {
         const findCity = this.cityData.find(a => a.name === city)
         const findCityID = this.cityData.findIndex(a => a.name === city)

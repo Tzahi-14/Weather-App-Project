@@ -14,7 +14,6 @@ const current = async function () {
     await model.getCityData()
 }
 
-
 const handleSearch = async function (city) {
     await model.getCityData(city)
     renderer.renderAll(model.cityData)
