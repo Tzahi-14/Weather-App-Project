@@ -34,7 +34,7 @@ class Model {
             this.cityData.push({ ...fatch, saved: false })
             console.log(fatch)
         }
-        {
+        else{
             const fatch = await $.get(`/city/${cityName}`)
             this.cityData.push({ ...fatch, saved: false })
             console.log(fatch)
