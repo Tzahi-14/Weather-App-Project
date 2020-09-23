@@ -1,0 +1,43 @@
+body {
+    background-color: aqua;
+    background-image: url("https://s32519.pcdn.co/wp-content/uploads/2019/12/towards-a-weather-proactive-supply-chain-hero-image-2272x960px.jpg.optimal.jpg");
+}
+
+.container {
+    margin: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: rgb(73, 102, 184);
+}
+
+#removed-btn {
+    background-color: red;
+}
+
+#saved-btn {
+    background-color: green;
+}
+
+.city {
+    box-shadow: 1em 1em 3em #0a1612;
+    margin: 1em;
+    padding: 1em;
+    color: white;
+}
+
+.fas {
+    width: 0.9rem;
+    height: 0.9rem;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    color: teal;
+}
+
+#nav-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

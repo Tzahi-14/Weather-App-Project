@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <title>Weather app</title>
+
+</head>
+
+<body>
+
+    <h1 id="header">WeatherApp</h1>
+    <div id="nav-bar"><input type="text" placeholder="Enter you city" id="city-input">
+    <button id="city-btn"><i class="fas fa-search"></i></button></div>
+    
+    <div class="container"></div>
+
+    <script id="weather-template" type="text/x-handlebars-template">
+        {{#each data}}
+        <div class="city" data.id={{_id}}>
+            {{#if saved}}
+             <button id="removed-btn">Remove</button>{{else}}<button id=saved-btn>Save</button>
+            {{/if}}
+        <div id="name">{{name}}</div>
+        <div id="description">{{condition}}</div>
+        <div id="icon"><img src="http://openweathermap.org/img/wn/{{icon}}@2x.png" alt=""></div>
+        <div id="temperature">{{temperature}}</div>
+        <div id="last-update">{{updatedAt}}</div>
+        {{#if saved}}
+        <div><button id="updated-btn">Update data</button></div>
+        {{/if}}
+        </div>
+        {{/each}}
+        </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./jquery/dist/jquery.js"></script>
+    <script src="./handlebars/dist/handlebars.js"></script>
+    <script src="logic.js"></script>
+    <script src="render.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
