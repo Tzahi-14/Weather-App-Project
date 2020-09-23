@@ -50,7 +50,6 @@ class Model {
 
     async saveCity(city) {
         const findCity = this.cityData.find(a => a.name === city)
-        const findCityID = this.cityData.findIndex(a => a.name === city)
         await $.post("/city", findCity)
         findCity.saved = true
     }

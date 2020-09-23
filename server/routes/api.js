@@ -63,10 +63,10 @@ router.post(`/city`, async function (req, res) {
     res.send(newCity)
 })
 
-router.delete('/city/:cityName', function (req, res) {
+router.delete('/city/:cityName',  async function (req, res) {
     const cityName = req.params.cityName
-    City.find({ name: `${cityName}` }, { new: true }).remove().exec(function (err, deleted) {
-        res.send(cityName)
+    const cityToDelete = await City.findOneAndDelete({ name: `${cityName}` }, { new: true }).exec(function (err, deleted) {
+        res.send(cityToDelete)
     });
 })
 router.put('/city/:cityName', async function (req, res) {
